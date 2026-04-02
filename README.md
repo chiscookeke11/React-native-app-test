@@ -1,58 +1,123 @@
 # React-native-app-test
 
-This project is configured with **Expo Router + TypeScript + NativeWind**.
+## Is this setup correct?
 
-## Routing structure
+Yes — your current project is a valid **Expo + TypeScript + NativeWind** starter.
+
+You currently have:
+
+- Expo SDK 54 + React Native 0.81
+- TypeScript config
+- NativeWind + Tailwind configured
+- A basic `App.tsx` entry screen
+
+That is a good baseline for building UI.
+
+---
+
+## How to move forward
+
+Right now your app uses a single `App.tsx` file. To add **multiple pages, route groups, and dynamic routes**, the cleanest path is to adopt **Expo Router**.
+
+### 1) Install and enable Expo Router
+
+```bash
+npm install expo-router
+```
+
+Update `package.json`:
+
+```json
+{
+  "main": "expo-router/entry"
+}
+```
+
+Update `app.json`:
+
+```json
+{
+  "expo": {
+    "plugins": ["expo-router"],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
+```
+
+Update `babel.config.js` plugins to include:
+
+```js
+plugins: ['expo-router/babel', 'react-native-worklets/plugin'];
+```
+
+> Keep `react-native-worklets/plugin` because your project already uses it.
+
+### 2) Create the `app/` folder and pages
+
+Example structure:
 
 ```txt
 app/
   _layout.tsx
+  index.tsx
   about.tsx
-  blog/
-    [slug].tsx
-  users/
-    [id].tsx
-  (auth)/
-    login.tsx
+```
+
+- `app/index.tsx` → `/`
+- `app/about.tsx` → `/about`
+
+### 3) Group routes (without URL segment)
+
+Use parentheses in folder names:
+
+```txt
+app/
   (tabs)/
     _layout.tsx
     index.tsx
     discover.tsx
-    settings.tsx
 ```
 
-## What's implemented
+`(tabs)` is for code organization/layout; it does not appear in URL.
 
-- **Static pages**
-  - `/` (Home)
-  - `/about`
-- **Route group**
-  - `/login` (file is `app/(auth)/login.tsx`; route group name is hidden from URL)
-- **Dynamic pages**
-  - `/blog/[slug]`
-  - `/users/[id]`
-- **Tabs group**
-  - Home, Discover, Settings tabs under `app/(tabs)`
+### 4) Dynamic routes
 
-Each page includes content and links to demonstrate navigation between static and dynamic routes.
+Use square brackets:
 
-## Configuration checklist
-
-- `package.json` uses `"main": "expo-router/entry"`
-- `app.json` includes `"plugins": ["expo-router"]`
-- `app.json` enables `"typedRoutes": true`
-- `babel.config.js` includes:
-  - `expo-router/babel`
-  - `react-native-worklets/plugin`
-
-## Run
-
-```bash
-npm install
-npm run start
+```txt
+app/blog/[slug].tsx
 ```
 
-If Metro cache issues appear:
+This matches URLs like `/blog/first-post`.
+
+Read param in screen:
+
+```tsx
+const { slug } = useLocalSearchParams<{ slug: string }>();
+```
+
+### 5) Nested layouts
+
+Each folder can define its own `_layout.tsx` (Stack, Tabs, etc.).
+
+---
+
+## Recommended migration sequence
+
+1. Keep current `App.tsx` working.
+2. Install/enable Expo Router.
+3. Add `app/index.tsx` first.
+4. Add one static page (`about.tsx`).
+5. Add one dynamic page (`blog/[slug].tsx`).
+6. Add route groups/tabs once basic routing is stable.
+
+---
+
+## Troubleshooting tip
+
+If imports from `expo-router` fail, make sure package installation completed and restart Metro with cache clear:
 
 ```bash
 npx expo start -c

@@ -1,14 +1,12 @@
 {
   "expo": {
-    "name": "my-expo-app",
-    "slug": "my-expo-app",
+    "name": "YText",
+    "slug": "my-expo-sssapp",
     "version": "1.0.0",
-    "scheme": "myexpoapp",
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "experiments": {
-      "tsconfigPaths": true,
       "typedRoutes": true
     },
     "plugins": ["expo-router"],
