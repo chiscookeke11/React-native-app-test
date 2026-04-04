@@ -58,7 +58,10 @@ export default function OnboardingStep1({ navigation }: any) {
             Every transaction is automatically converted on the vendor’s end—fast, precise, and reliable.
           </Text>
 
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Step2')}>
+          <TouchableOpacity style={styles.button}
+           onPress={() => navigation.navigate('auth', {
+            screen: "CreateAccount",
+           })}>
             <Text style={styles.buttonText} >Get Started</Text>
           </TouchableOpacity>
         </LinearGradient>
