@@ -1,12 +1,13 @@
 import { useFonts } from '@expo-google-fonts/plus-jakarta-sans';
 import { LinearGradient } from 'expo-linear-gradient';
+import { router } from 'expo-router';
 import React, { useEffect, useRef } from 'react';
 import { Animated, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { fonts } from '../../../fonts/fonts';
 
 
-export default function OnboardingStep1({ navigation }: any) {
+export default function OnboardingStep1() {
 
   const stepInfoAnim = useRef(new Animated.Value(400)).current;
 
@@ -59,9 +60,7 @@ export default function OnboardingStep1({ navigation }: any) {
           </Text>
 
           <TouchableOpacity style={styles.button}
-           onPress={() => navigation.navigate('auth', {
-            screen: "CreateAccount",
-           })}>
+            onPress={() => router.push('/auth')}>
             <Text style={styles.buttonText} >Get Started</Text>
           </TouchableOpacity>
         </LinearGradient>
