@@ -5,10 +5,10 @@ import OnboardingStep2 from './screens/OnboardingStep2';
 
 const Stack = createNativeStackNavigator();
 
-export default function OnboardingNavigator() {
+export default function Index() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Step1" component={OnboardingStep1} />
+    <Stack.Navigator screenOptions={{ headerShown: false }} >
+      <Stack.Screen name="Step1" component={OnboardingStep1}  />
       <Stack.Screen name="Step2" component={OnboardingStep2} />
     </Stack.Navigator>
   );
