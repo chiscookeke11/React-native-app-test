@@ -13,8 +13,8 @@ export default function OnboardingStep1({ navigation }: any) {
 
   useEffect(() => {
     Animated.timing(stepInfoAnim, {
-      toValue: 15,
-      duration:300,
+      toValue: 0,
+      duration: 300,
       useNativeDriver: true,
     }).start();
   }, []);
@@ -28,27 +28,28 @@ export default function OnboardingStep1({ navigation }: any) {
   return (
     <SafeAreaView style={styles.container}>
 
+      <View style={styles.top} >
 
-      <View style={styles.wrapper} >
-        <Image source={require('../../../assets/onboarding/onboarding-screen-logo.png')} style={styles.image} />
-        <Text style={styles.heading}>
-          Welcome to <Text style={styles.name}>UnioGate</Text>
-        </Text>
+        <View style={styles.wrapper} >
+          <Image source={require('../../../assets/onboarding/onboarding-screen-logo.png')} style={styles.image} />
+          <Text style={styles.heading}>
+            Welcome to <Text style={styles.name}>UnioGate</Text>
+          </Text>
+        </View>
+
+        <Text style={styles.subtext}>They have Crypto, You need Naira.</Text>
+
+
+        {/* The current step Image  */}
+        <View style={styles.imageWrapper}  >
+          {/* floating images  */}
+          <Image source={require('../../../assets/onboarding/changing-currency.png')} style={styles.moneyImage} />
+          <Image source={require('../../../assets/onboarding/Moneyverse-Credit-Card.png')} style={styles.cardImage} />
+
+          <Image source={require('../../../assets/onboarding/transfer.png')} style={styles.stepImage} />
+        </View>
       </View>
 
-      <Text style={styles.subtext}>They have Crypto, You need Naira.</Text>
-
-
-      {/* The current step Image  */}
-      <View style={styles.imageWrapper}  >
-
-
-        {/* floating images  */}
-        <Image source={require('../../../assets/onboarding/changing-currency.png')} style={styles.moneyImage} />
-        <Image source={require('../../../assets/onboarding/Moneyverse-Credit-Card.png')} style={styles.cardImage} />
-
-        <Image source={require('../../../assets/onboarding/transfer.png')} style={styles.stepImage} />
-      </View>
 
       {/* Step info section  */}
       <Animated.View
@@ -79,11 +80,20 @@ export default function OnboardingStep1({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 24,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#253E86',
-    gap: 24,
+    gap: "5%",
+  },
+
+  top: {
+    flex: 1,
+    paddingTop: 30,
+    paddingHorizontal: 24,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    gap: 20,
   },
 
   wrapper: {
@@ -91,7 +101,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    gap: 10
+    gap: 8,
   },
 
   image: {
@@ -118,14 +128,13 @@ const styles = StyleSheet.create({
   },
 
   imageWrapper: {
-    width: "90%",
-    height: 150,
+    width: 325,
+    height: 130,
     position: "relative",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 65,
-    marginBottom: 10,
+    marginTop: "23%",
   },
 
   stepImage: {
@@ -156,8 +165,7 @@ const styles = StyleSheet.create({
     height: "auto",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    paddingVertical: 20,
-    paddingBottom: 10,
+    paddingVertical: "8%",
     paddingHorizontal: 20,
     display: "flex",
     alignItems: "center",

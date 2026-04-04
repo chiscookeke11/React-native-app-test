@@ -1,18 +1,18 @@
 import { useFonts } from '@expo-google-fonts/plus-jakarta-sans';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useEffect, useRef } from 'react';
-import { Animated, Image, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
+import { Animated, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { fonts } from '../../../fonts/fonts';
 
 
-export default function OnboardingStep2({ navigation }: any) {
+export default function OnboardingStep1({ navigation }: any) {
 
   const stepInfoAnim = useRef(new Animated.Value(400)).current;
 
   useEffect(() => {
     Animated.timing(stepInfoAnim, {
-      toValue: 37,
+      toValue: 0,
       duration: 300,
       useNativeDriver: true,
     }).start();
@@ -22,25 +22,29 @@ export default function OnboardingStep2({ navigation }: any) {
 
   if (!fontsLoaded) return null;
 
+
+
   return (
     <SafeAreaView style={styles.container}>
 
+      <View style={styles.top} >
 
-      <View style={styles.wrapper} >
-        <Image source={require('../../../assets/onboarding/onboarding-screen-logo.png')} style={styles.image} />
-        <Text style={styles.heading}>
-          Welcome to <Text style={styles.name}>UnioGate</Text>
-        </Text>
+        <View style={styles.wrapper} >
+          <Image source={require('../../../assets/onboarding/onboarding-screen-logo.png')} style={styles.image} />
+          <Text style={styles.heading}>
+            Welcome to <Text style={styles.name}>UnioGate</Text>
+          </Text>
+        </View>
+
+        <Text style={styles.subtext}>Built for Seamless Payments.</Text>
+
+
+        {/* The current step Image  */}
+        <View style={styles.imageWrapper}  >
+          <Image source={require('../../../assets/onboarding/payments.png')} style={styles.stepImage} />
+        </View>
       </View>
 
-      <Text style={styles.subtext}>Built for Seamless Payments.</Text>
-
-
-      {/* The current step Image  */}
-      <View style={styles.imageWrapper}  >
-
-        <Image source={require('../../../assets/onboarding/payments.png')} style={styles.stepImage} />
-      </View>
 
       {/* Step info section  */}
       <Animated.View
@@ -50,13 +54,11 @@ export default function OnboardingStep2({ navigation }: any) {
           colors={['#FFFFFF', 'rgba(37, 62, 134, 0.2)']}
           style={styles.stepInfo}
         >
-          <Text style={styles.step_info_paragraph} >Every transaction is automatically converted on the vendor’s end—fast, precise, and reliable.</Text>
+          <Text style={styles.step_info_paragraph}>
+            Every transaction is automatically converted on the vendor’s end—fast, precise, and reliable.
+          </Text>
 
-          <TouchableOpacity style={styles.button}
-
-          // onPress={() => navigation.navigate('Step2')}
-
-          >
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Step2')}>
             <Text style={styles.buttonText} >Get Started</Text>
           </TouchableOpacity>
         </LinearGradient>
@@ -70,11 +72,20 @@ export default function OnboardingStep2({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 24,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#253E86',
-    gap: 24,
+    gap: "23%",
+  },
+
+  top: {
+    flex: 1,
+    paddingTop: 30,
+    paddingHorizontal: 24,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    gap: "10%",
   },
 
   wrapper: {
@@ -82,7 +93,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    gap: 10
+    gap: 8,
   },
 
   image: {
@@ -109,36 +120,33 @@ const styles = StyleSheet.create({
   },
 
   imageWrapper: {
-    width: "100%",
+    width: 400,
     height: 150,
     position: "relative",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 65,
-    marginBottom: 10,
   },
 
   stepImage: {
-    width: "100%",
+    width: "85%",
     resizeMode: "contain",
   },
 
-
   stepInfo: {
+    marginTop: "auto",
     width: "100%",
     backgroundColor: "#FFFFFF",
     height: "auto",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    paddingTop: 40,
-    paddingBottom: 20,
+    paddingVertical: "15%",
     paddingHorizontal: 20,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     gap: 12,
-    overflow: "hidden"
+    overflow: "hidden",
   },
 
   step_info_paragraph: {
@@ -150,20 +158,20 @@ const styles = StyleSheet.create({
 
   button: {
     backgroundColor: "#2DBAA4",
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: "#000000",
     padding: 17,
     borderRadius: 10,
-    width: "100%",
     flexShrink: 0,
+    width: "100%",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    color: "#000000",
     marginTop: 10
   },
 
   buttonText: {
-    color: "#000000",
     fontSize: 16,
     fontFamily: 'Sora_400Regular',
   }
