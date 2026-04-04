@@ -1,23 +1,171 @@
-import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { useFonts } from '@expo-google-fonts/plus-jakarta-sans';
+import { LinearGradient } from 'expo-linear-gradient';
+import React, { useEffect, useRef } from 'react';
+import { Animated, Image, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { fonts } from '../../../fonts/fonts';
+
 
 export default function OnboardingStep2({ navigation }: any) {
+
+  const stepInfoAnim = useRef(new Animated.Value(400)).current;
+
+  useEffect(() => {
+    Animated.timing(stepInfoAnim, {
+      toValue: 37,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  }, []);
+
+  const [fontsLoaded] = useFonts(fonts);
+
+  if (!fontsLoaded) return null;
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Discover Features</Text>
-      <Text style={styles.description}>
-        Here you can show your app's features or guide users through key actions.
-      </Text>
-      <Button
-        title="Next"
-        onPress={() => navigation.navigate('Step3')}
-      />
-    </View>
+    <SafeAreaView style={styles.container}>
+
+
+      <View style={styles.wrapper} >
+        <Image source={require('../../../assets/onboarding/onboarding-screen-logo.png')} style={styles.image} />
+        <Text style={styles.heading}>
+          Welcome to <Text style={styles.name}>UnioGate</Text>
+        </Text>
+      </View>
+
+      <Text style={styles.subtext}>Built for Seamless Payments.</Text>
+
+
+      {/* The current step Image  */}
+      <View style={styles.imageWrapper}  >
+
+        <Image source={require('../../../assets/onboarding/payments.png')} style={styles.stepImage} />
+      </View>
+
+      {/* Step info section  */}
+      <Animated.View
+        style={[{ transform: [{ translateY: stepInfoAnim }] }, { width: '100%' }]}
+      >
+        <LinearGradient
+          colors={['#FFFFFF', 'rgba(37, 62, 134, 0.2)']}
+          style={styles.stepInfo}
+        >
+          <Text style={styles.step_info_paragraph} >Every transaction is automatically converted on the vendor’s end—fast, precise, and reliable.</Text>
+
+          <TouchableOpacity style={styles.button}
+
+          // onPress={() => navigation.navigate('Step2')}
+
+          >
+            <Text style={styles.buttonText} >Get Started</Text>
+          </TouchableOpacity>
+        </LinearGradient>
+      </Animated.View>
+
+
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 },
-  title: { fontSize: 28, fontWeight: 'bold', marginBottom: 15 },
-  description: { fontSize: 16, textAlign: 'center', marginBottom: 20 },
+  container: {
+    flex: 1,
+    paddingTop: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#253E86',
+    gap: 24,
+  },
+
+  wrapper: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10
+  },
+
+  image: {
+    width: 50,
+    height: 50,
+    resizeMode: "cover"
+  },
+
+  heading: {
+    fontFamily: 'PlusJakartaSans_300Light',
+    color: '#ffffff',
+    fontSize: 24,
+  },
+
+  name: {
+    fontFamily: "PlusJakartaSans_500Medium"
+  },
+
+  subtext: {
+    color: '#ffffff',
+    fontSize: 40,
+    textAlign: "center",
+    fontFamily: "PlusJakartaSans_600SemiBold"
+  },
+
+  imageWrapper: {
+    width: "100%",
+    height: 150,
+    position: "relative",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 65,
+    marginBottom: 10,
+  },
+
+  stepImage: {
+    width: "100%",
+    resizeMode: "contain",
+  },
+
+
+  stepInfo: {
+    width: "100%",
+    backgroundColor: "#FFFFFF",
+    height: "auto",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingTop: 40,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 12,
+    overflow: "hidden"
+  },
+
+  step_info_paragraph: {
+    fontSize: 16,
+    textAlign: "center",
+    lineHeight: 30,
+    fontFamily: 'Sora_400Regular',
+  },
+
+  button: {
+    backgroundColor: "#2DBAA4",
+    borderWidth: 1,
+    borderColor: "#000000",
+    padding: 17,
+    borderRadius: 10,
+    width: "100%",
+    flexShrink: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 10
+  },
+
+  buttonText: {
+    color: "#000000",
+    fontSize: 16,
+    fontFamily: 'Sora_400Regular',
+  }
+
 });

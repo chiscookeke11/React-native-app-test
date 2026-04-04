@@ -1,23 +1,34 @@
-import { PlusJakartaSans_300Light, useFonts } from '@expo-google-fonts/plus-jakarta-sans';
-import { PlusJakartaSans_500Medium } from '@expo-google-fonts/plus-jakarta-sans/500Medium';
-import { PlusJakartaSans_600SemiBold } from '@expo-google-fonts/plus-jakarta-sans/600SemiBold';
-import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { useFonts } from '@expo-google-fonts/plus-jakarta-sans';
+import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
+import React, { useEffect, useRef } from 'react';
+import { Animated, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { fonts } from '../../../fonts/fonts';
+
 
 export default function OnboardingStep1({ navigation }: any) {
 
-  let [fontsLoaded] = useFonts({
-    PlusJakartaSans_300Light,
-    PlusJakartaSans_600SemiBold,
-    PlusJakartaSans_500Medium
-  });
+  const stepInfoAnim = useRef(new Animated.Value(400)).current;
 
-  if (!fontsLoaded) {
-    return null;
-  }
+  useEffect(() => {
+    Animated.timing(stepInfoAnim, {
+      toValue: 15,
+      duration:300,
+      useNativeDriver: true,
+    }).start();
+  }, []);
+
+  const [fontsLoaded] = useFonts(fonts);
+
+  if (!fontsLoaded) return null;
+
+
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+
+
       <View style={styles.wrapper} >
         <Image source={require('../../../assets/onboarding/onboarding-screen-logo.png')} style={styles.image} />
         <Text style={styles.heading}>
@@ -39,21 +50,40 @@ export default function OnboardingStep1({ navigation }: any) {
         <Image source={require('../../../assets/onboarding/transfer.png')} style={styles.stepImage} />
       </View>
 
+      {/* Step info section  */}
+      <Animated.View
+        style={[{ transform: [{ translateY: stepInfoAnim }] }, { width: '100%' }]}
+      >
+        <LinearGradient
+          colors={['#FFFFFF', 'rgba(37, 62, 134, 0.2)']}
+          style={styles.stepInfo}
+        >
+          <Text style={styles.step_info_heading}>
+            No stress, No extra steps.
+          </Text>
+          <Text style={styles.step_info_paragraph}>
+            Just pay from your wallet like you always do. UnioGate automatically handles the conversion in seconds.
+          </Text>
+
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Step2')}>
+            <Ionicons name="arrow-forward" size={24} color="#000000" />
+          </TouchableOpacity>
+        </LinearGradient>
+      </Animated.View>
 
 
-      {/* <Button title="Next" onPress={() => navigation.navigate('Step2')} /> */}
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 24,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
     backgroundColor: '#253E86',
-    gap: 40,
+    gap: 24,
   },
 
   wrapper: {
@@ -61,7 +91,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    gap: 24
+    gap: 10
   },
 
   image: {
@@ -88,26 +118,26 @@ const styles = StyleSheet.create({
   },
 
   imageWrapper: {
-    width: "100%",
-    height: 200,
+    width: "90%",
+    height: 150,
     position: "relative",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     marginTop: 65,
-    marginBottom: 10
+    marginBottom: 10,
   },
 
   stepImage: {
     width: "85%",
-    resizeMode: "cover",
+    resizeMode: "contain",
   },
 
   moneyImage: {
     width: "100%",
     maxWidth: 111,
     position: "absolute",
-    top: -75,
+    top: -85,
     left: 0
   },
 
@@ -115,8 +145,54 @@ const styles = StyleSheet.create({
     width: "100%",
     maxWidth: 100,
     position: "absolute",
-    bottom: -18,
+    bottom: -42,
     right: -6
-  }
+  },
+
+  stepInfo: {
+    marginTop: "auto",
+    width: "100%",
+    backgroundColor: "#FFFFFF",
+    height: "auto",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingVertical: 20,
+    paddingBottom: 10,
+    paddingHorizontal: 20,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 12,
+    overflow: "hidden"
+  },
+
+  step_info_heading: {
+    fontFamily: "PlusJakartaSans_600SemiBold",
+    fontSize: 28,
+    textAlign: "center"
+  },
+
+  step_info_paragraph: {
+    fontSize: 16,
+    textAlign: "center",
+    lineHeight: 30,
+    fontFamily: 'Sora_400Regular',
+  },
+
+  button: {
+    backgroundColor: "#2DBAA4",
+    borderWidth: 2,
+    borderColor: "#000000",
+    padding: 17,
+    borderRadius: "100%",
+    flexShrink: 0,
+    width: 80,
+    height: 80,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "#000000",
+    marginTop: 10
+  },
 
 });
