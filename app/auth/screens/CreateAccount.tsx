@@ -20,7 +20,7 @@ export default function CreateAccount({ }) {
                 <Text
                     onPress={() => navigation.navigate('SignIn')}
                     style={styles.bottomTextLink}
-                >Log in</Text></Text>
+                > Log in</Text></Text>
         </SafeAreaView>
     )
 }
