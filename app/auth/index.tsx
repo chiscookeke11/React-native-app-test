@@ -1,6 +1,8 @@
+import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CreateAccount from './screens/CreateAccount';
 import SignIn from './screens/SignIn';
@@ -9,13 +11,23 @@ import SignIn from './screens/SignIn';
 const Stack = createNativeStackNavigator();
 
 export default function Index() {
+    const navigation = useNavigation();
+
+
     return (
         <SafeAreaView style={styles.container}>
 
-            <View>
+            {/* The top navigation bar  */}
+            <View style={styles.navbar} >
+                <TouchableOpacity
+                    onPress={() => navigation.goBack()}
+                >
+                    <Ionicons name="chevron-back" size={22} color="#10182A" />
+                </TouchableOpacity>
 
-                <TouchableOpacity style={styles.supportButton} onPress={() => { }}>
-                    <Text style={styles.supportButtonText}>Support</Text>
+
+                <TouchableOpacity >
+                    <Ionicons name="headset-outline" size={22} color="#10182A" />
                 </TouchableOpacity>
             </View>
 
@@ -38,18 +50,16 @@ const styles = StyleSheet.create({
         position: "relative",
         backgroundColor: "#ffffff"
     },
-    supportButton: {
-        alignSelf: 'center',
-        backgroundColor: '#2DBAA4',
-        borderColor: '#000000',
-        borderWidth: 2,
-        borderRadius: 10,
-        paddingVertical: 12,
-        paddingHorizontal: 24,
+
+    navbar: {
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        paddingVertical: 5,
+        paddingHorizontal: 14,
+        flexDirection: "row"
     },
-    supportButtonText: {
-        color: '#000000',
-        fontSize: 16,
-        fontWeight: '600',
-    },
+
+
 });
