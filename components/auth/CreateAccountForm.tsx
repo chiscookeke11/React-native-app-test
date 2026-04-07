@@ -12,14 +12,31 @@ export default function CreateAccountForm() {
 
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [phoneError, setPhoneError] = useState('');
 
     const [fontsLoaded] = useFonts(fonts);
 
-    if (!fontsLoaded) return null;
+    // Validation function
+    const validateEmail = (value: string) => {
+        if (!value && signUpMode === "emailAddress") return 'Email is required';
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) return 'Enter a valid email';
+        return '';
+    };
+
+    const validatePhone = (value: string) => {
+        if (!value && signUpMode === "phoneNumber") return 'Phone number is required';
+        if (!/^\d{10,15}$/.test(value)) return 'Enter a valid phone number';
+        return '';
+    };
+
 
     const toggleSignupMode = () => {
         setSignUpMode(signUpMode === "emailAddress" ? "phoneNumber" : "emailAddress");
     }
+
+    if (!fontsLoaded) return null;
 
 
     return (
@@ -28,9 +45,8 @@ export default function CreateAccountForm() {
             <Text style={styles.pageTitle} > Create Account</Text>
 
 
-
+            {/* The form input  */}
             {signUpMode === "phoneNumber" ? (
-
                 <>
                     {/* Phone number input  */}
                     <CustomInput
@@ -38,7 +54,12 @@ export default function CreateAccountForm() {
                         placeholder="Phone number"
                         keyboardType="phone-pad"
                         value={phone}
-                        onChangeText={setPhone}
+                        onBlur={() => setPhoneError(validatePhone(phone))}
+                        error={phoneError}
+                        onChangeText={(text) => {
+                            setPhone(text)
+                            if (phoneError) setPhoneError("")
+                        }}
                         leftElement={
                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                 <Image source={require('../../assets/onboarding/NG-flag.png')} style={{ width: 24, height: 16 }} />
@@ -56,7 +77,12 @@ export default function CreateAccountForm() {
                             placeholder="Enter Email address"
                             keyboardType="email-address"
                             value={email}
-                            onChangeText={setEmail}
+                            onChangeText={(text) => {
+                                setEmail(text)
+                                if (emailError) setEmailError("")
+                            }}
+                            onBlur={() => setEmailError(validateEmail(email))}
+                            error={emailError}
                         />
                     </>
                 )}

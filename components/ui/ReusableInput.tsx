@@ -1,29 +1,38 @@
+import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, Text, TextInput, TextInputProps, View, ViewStyle } from 'react-native';
 
 interface CustomInputProps extends TextInputProps {
-    leftElement?: React.ReactNode; // optional element on the left (flag, icon)
-    containerStyle?: ViewStyle;     // optional style override for container
-    label?: string
+    leftElement?: React.ReactNode;
+    containerStyle?: ViewStyle;
+    label?: string;
+    error?: string;
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
     leftElement,
     label,
     containerStyle,
+    error,
     style,
     ...textInputProps
 }) => {
     return (
         <View style={styles.inputWrapper} >
             <Text style={styles.label} >{label && label}</Text>
-            <View style={[styles.container, containerStyle]}>
+            <View style={[
+                styles.container,
+                containerStyle,
+                error ? styles.errorBorder : null
+            ]}>
+
                 {leftElement && <View style={styles.left}>{leftElement}</View>}
                 <TextInput
                     style={[styles.input, style]}
                     {...textInputProps}
                 />
             </View>
+            {error ? <Text style={styles.errorText}>      <Ionicons name="alert-circle" size={14} color="red" /> {error}</Text> : null}
         </View>
     );
 };
@@ -43,7 +52,7 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 14,
         color: "#10182A",
-           fontFamily: 'Sora_400Regular',
+        fontFamily: 'Sora_400Regular',
     },
 
     container: {
@@ -63,5 +72,14 @@ const styles = StyleSheet.create({
     input: {
         flex: 1,
         fontSize: 18,
+    },
+    errorText: {
+        color: 'red',
+        fontSize: 12,
+        marginTop: 4,
+        fontFamily: 'Sora_400Regular',
+    },
+    errorBorder: {
+        borderColor: 'red',
     },
 });
