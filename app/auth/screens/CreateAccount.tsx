@@ -1,3 +1,4 @@
+import CreateAccountForm from '@/components/auth/CreateAccountForm';
 import { fonts } from '@/fonts/fonts';
 import { useFonts } from '@expo-google-fonts/plus-jakarta-sans';
 import { useNavigation } from '@react-navigation/native';
@@ -16,8 +17,13 @@ export default function CreateAccount({ }) {
 
     return (
         <SafeAreaView style={styles.container} >
-            <Text  >Hello, Sign up</Text>
+            <CreateAccountForm />
 
+
+
+
+
+            {/* This is the bottom text on the page  */}
             <Text style={styles.bottomText}  >Have an account?
                 <Text
                     onPress={() => navigation.navigate('SignIn')}
@@ -48,6 +54,7 @@ const styles = StyleSheet.create({
     },
 
     bottomTextLink: {
-        color: "#10182A"
+        color: "#10182A",
+        textDecorationLine: "underline"
     }
 })
