@@ -1,14 +1,17 @@
 import CreateAccountForm from '@/components/auth/CreateAccountForm';
+import OTPForm from '@/components/auth/OTPForm';
 import { fonts } from '@/fonts/fonts';
 import { useFonts } from '@expo-google-fonts/plus-jakarta-sans';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { AuthStackParamList } from '../types';
 
 export default function CreateAccount({ }) {
     const navigation = useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
+    const [currentForm, setCurrentForm] = useState("otpForm")
 
 
     const [fontsLoaded] = useFonts(fonts);
@@ -17,7 +20,16 @@ export default function CreateAccount({ }) {
 
     return (
         <SafeAreaView style={styles.container} >
-            <CreateAccountForm />
+
+
+            {
+                currentForm === "createAccountForm" ? (
+                    <CreateAccountForm />
+                )
+                : (
+                    <OTPForm/>
+                )
+            }
 
 
 
