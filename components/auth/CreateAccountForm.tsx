@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import CustomCheckbox from '../ui/CustomCheckbox';
 import CustomInput from '../ui/ReusableInput';
+import ImageUploadField from '../ui/ImageUploadField';
 
 
 export default function CreateAccountForm() {
@@ -14,6 +15,7 @@ export default function CreateAccountForm() {
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
     const [phoneError, setPhoneError] = useState('');
+    const [businessLogoUri, setBusinessLogoUri] = useState<string | null>(null);
 
     const [fontsLoaded] = useFonts(fonts);
 
@@ -89,7 +91,10 @@ export default function CreateAccountForm() {
 
 
 
-
+            <ImageUploadField
+                label='Business Logo (Optional)'
+                onChange={setBusinessLogoUri}
+            />
 
 
             <View style={styles.contentWrapper} >
@@ -100,8 +105,9 @@ export default function CreateAccountForm() {
                 />
 
                 <TouchableOpacity
-                    style={styles.button}
+                    style={[styles.button, !businessLogoUri && styles.disabledButton]}
                     activeOpacity={0.7}
+                    disabled={!businessLogoUri}
                 >
                     <Text style={styles.buttonText} >Sign up</Text>
                 </TouchableOpacity>
@@ -158,6 +164,10 @@ const styles = StyleSheet.create({
         paddingVertical: 16,
         borderRadius: 10,
         marginBottom: 11
+    },
+
+    disabledButton: {
+        opacity: 0.6
     },
 
     buttonText: {
